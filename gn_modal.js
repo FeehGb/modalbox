@@ -15,7 +15,6 @@ class Gn_modal{
             message     :'Descricao da caixa de dialogo',
             type        :'info',
             buttons     :{
-                confirm : ()=>{ console.log('confirm clicked')},
                 cancel  : ()=>{ this.dismiss();}
             }
         };
