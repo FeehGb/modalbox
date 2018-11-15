@@ -10,10 +10,10 @@
         <div class="overlay-box"></div>
         <div id="main-box">
             <div id="content-box">
-                <div class="title-box">
+                <div id="title-box">
                     
                 </div>
-                <div class="desc-box">
+                <div id="desc-box">
                     
                 </div>
                 <div id="box-controller">
@@ -26,12 +26,14 @@
     </div>
         
     <script src="gn_modal.js" ></script>
-     
     <script>
         
         modal = new Gn_modal;
         modal.create({
-            title:'000'
+            title      :'titulo',
+            message    :'Aqui e minha modal funcionando como eu quero',
+            type       :'alert',
+            addClass   :'n'
         });
         
     </script>

@@ -63,6 +63,7 @@ table {
 }
 
 #main-box {
+    max-width: 40%;
     z-index: 2;
     position: absolute;
     transform: translate(0%, -50%);
@@ -81,33 +82,35 @@ table {
 
 #content-box {
 
-    box-shadow:  4px 0px 20px -5px var(--dark-modal-color),-5px 0px 20px -5px var(--dark-modal-color),inset 0px 0px 0px 1px #8f909c, inset 0px 0px 0px 2px #ffffff;
+    box-shadow: 4px 0px 20px -5px var(--dark-modal-color),-5px 0px 20px -5px var(--dark-modal-color),inset 0px 0px 0px 1px #8f909c, inset 0px 0px 0px 2px #ffffff;
     border-radius: 3px;
     background: local;
     background-color: var(--light-modal-color);
-    padding: 15px;
+    padding: 2px 2px 15px 2px;
     line-height: 1.6;
     font-family: Arial,x-locale-body,sans-serif;
     letter-spacing: -.002rem;
 }
 
-.title-box {
-    padding: 5px;
+#title-box {
+    border-radius: 3px 3px 0 0;
+    padding: 15px;
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: 5px;
     border-bottom: solid 1px var(--medium-modal-color);
+    background-image: linear-gradient( #e7e7e7 50%, #dbdbdb 75%);
 }
 
-.title-box h3 {
+#title-box h3 {
     color: var(--medium-modal-color);
 }
 
-.desc-box {
+#desc-box {
     padding: 25px 25px 25px 15px;
 }
 
-.desc-box p {
+#desc-box p {
     color: var(--medium-modal-color);
     font-size: 1.1em;
 }
@@ -121,11 +124,12 @@ table {
 }
 
 #box-controller button {
+    border-radius: 20px;
     cursor: pointer;
     font-style: oblique;
     color: var(--light-modal-color);
     background-color: var(--medium-modal-color);
     border: solid 1px var(--medium-modal-color);
-    padding: 10px 15px;
+    padding: 12px 29px;
     margin-right: 6px;
 }
