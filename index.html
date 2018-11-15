@@ -6,8 +6,16 @@
     </head>
     <body>
         
+        <a id="show-box">
+            Click me to show
+        </a>
+        
+        <a id="show-box2">
+            Click me to show
+        </a>
+        
     <div id="gn_modal">
-        <div class="overlay-box"></div>
+        <div id="overlay-box"></div>
         <div id="main-box">
             <div id="content-box">
                 <div id="title-box">
@@ -27,14 +35,38 @@
         
     <script src="gn_modal.js" ></script>
     <script>
-        
         modal = new Gn_modal;
-        modal.create({
-            title      :'titulo',
-            message    :'Aqui e minha modal funcionando como eu quero',
-            type       :'alert',
-            addClass   :'n'
+        
+        document.getElementById('show-box').addEventListener('click',()=>{
+            modal.create({
+                title      :'titulo',
+                message    :'Aqui e minha modal funcionando como eu quero',
+                type       :'alert',
+                
+            });
+            
+        })
+        
+        
+        document.getElementById('show-box2').addEventListener('click',()=>{
+            modal.create({
+                title      :'Aqui jas um novo carinha',
+                message    :'Algo diferente para o teste',
+                type       :'alert',
+                buttons    :{
+                    cancel      : ()=>{ modal.dismiss();},
+                    atualizar   : ()=>{ alert('atualizado com sucesso'),modal.dismiss();},
+                    matar      : ()=>{ alert('matar')},
+                },
+                addClass    : 'classe',
+                overlay     :  {
+                    opacity:'0.1',
+                },
+        
+            });
         });
+        
+        
         
     </script>
     </body>    
