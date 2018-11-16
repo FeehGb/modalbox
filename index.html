@@ -28,9 +28,7 @@
                     
                 </div>
             </div>
-            
         </div>
-        
     </div>
         
     <script src="gn_modal.js" ></script>
@@ -38,30 +36,27 @@
         modal = new Gn_modal;
         
         document.getElementById('show-box').addEventListener('click',()=>{
-            modal.create({
-                title      :'titulo',
-                message    :'Aqui e minha modal funcionando como eu quero',
-                type       :'alert',
-                
-            });
+            modal.create();
             
         })
         
         
         document.getElementById('show-box2').addEventListener('click',()=>{
             modal.create({
+                svg :'',
                 title      :'Aqui jas um novo carinha',
                 message    :'Algo diferente para o teste',
                 type       :'alert',
                 buttons    :{
                     cancel      : ()=>{ modal.dismiss();},
                     atualizar   : ()=>{ alert('atualizado com sucesso'),modal.dismiss();},
-                    matar      : ()=>{ alert('matar')},
+                    modificar   : ()=>{ alert('modificar')},
                 },
                 addClass    : 'classe',
                 overlay     :  {
-                    opacity:'0.1',
+                    opacity:'0',
                 },
+                escape: true,
         
             });
         });

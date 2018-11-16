@@ -20,6 +20,7 @@ class Gn_modal{
             title      :'type atitle',
             message    :'type a description',
             type       :'info',
+            svg        : '<svg viewBox="0 0 256 512"><path fill="currentColor" d="M224 352.589V224c0-16.475-6.258-31.517-16.521-42.872C225.905 161.14 236 135.346 236 108 236 48.313 187.697 0 128 0 68.313 0 20 48.303 20 108c0 20.882 5.886 40.859 16.874 58.037C15.107 176.264 0 198.401 0 224v39.314c0 23.641 12.884 44.329 32 55.411v33.864C12.884 363.671 0 384.359 0 408v40c0 35.29 28.71 64 64 64h128c35.29 0 64-28.71 64-64v-40c0-23.641-12.884-44.329-32-55.411zM128 48c33.137 0 60 26.863 60 60s-26.863 60-60 60-60-26.863-60-60 26.863-60 60-60zm80 400c0 8.836-7.164 16-16 16H64c-8.836 0-16-7.164-16-16v-40c0-8.836 7.164-16 16-16h16V279.314H64c-8.836 0-16-7.164-16-16V224c0-8.836 7.164-16 16-16h96c8.836 0 16 7.164 16 16v168h16c8.836 0 16 7.164 16 16v40z" class=""></path></svg>',
             buttons    :{
                 cancel  : ()=>{ this.dismiss();}
             },
@@ -27,14 +28,15 @@ class Gn_modal{
             overlay     :  {
                 opacity:'0.5',
             },
+            escape: false,
+            animation : { has:true},
+            pressEsc  : true,
+            
         };
-        
-        this.fixedDefault = {
-            animation : { has:true}
-        };
-        
         
         this.initPrototype();
+        
+        
     }
     /**
      * Funcao que cria todos os elementos e atributos do modal
@@ -51,7 +53,7 @@ class Gn_modal{
         this.defaultSetting =   this.setSettings(value);
         
         // adiciona a classe ao main-box
-        this.mainBox.classList  .add(`${this.defaultSetting.type}`);
+        this.mainBox.addClasses(`${this.defaultSetting.type}`);
         
         // Checa se a propriedade addclass nao foi declarar
         this.defaultSetting.addClass != ''?
@@ -64,6 +66,13 @@ class Gn_modal{
         // Criando titulo
         this.title.append( this.createNewElement('h3',`${this.defaultSetting.title}`));  
         
+        //Crinado o icone
+        let icon = this.createNewElement('span');
+        icon.id = 'icon';
+        icon.addClasses(this.defaultSetting.type);
+        icon.innerHTML = this.defaultSetting.svg;
+        this.title.append(icon);  
+        
         // Crinado descricao
         this.message.append(this.createNewElement('p',`${this.defaultSetting.message}`));
         
@@ -72,9 +81,49 @@ class Gn_modal{
         for (button  in this.defaultSetting.buttons){
             this.controller.append( this.createNewElement('button',`${button}`)) 
         }  
+        
+        
+        // Adciona o evento click no overlay
+        this.overlay.addEventListener('click',(e)=>{
+            this.escape();        
+        });
+        
+        
         // Por fim mostra o modal gerado
         this.modal.show();
+        this.initKeybordEvents();
     }
+    
+    initKeybordEvents(){
+        
+        if(this.modal.style.display == 'flex' && this.defaultSetting.pressEsc === true){
+            document.addEventListener('keyup',this.escKeyup.bind(this),{once:true})
+        }
+        
+    }
+    
+    
+    escKeyup(e){
+        document.removeEventListener('keyup',this.escKeyup,{once:true})
+        
+        if(e.keyCode === 27){
+            this.escape();
+        }
+    }
+    
+    escape(){
+        
+        if(this.defaultSetting.escape == true){
+            this.dismiss();
+        }else{
+            
+            this.mainBox.removeClasses('swing').delay(100).then(()=>{
+                this.mainBox.addClasses('swing');
+            });
+        }
+        
+    }
+    
     
     /**
      *  Funcao para criar tag html para o DOM
@@ -83,7 +132,7 @@ class Gn_modal{
      * @param {String} innerText     texto que ira dentro da nova tag
      * @returns {newElement}         Novo elemento criado
      */
-    createNewElement( elm , innerText ){ 
+    createNewElement( elm , innerText = '' ){ 
         let newElement = document.createElement(`${elm}`);
         newElement.innerHTML = `${innerText}`;
         
@@ -111,7 +160,7 @@ class Gn_modal{
     setSettings(newSettings){
     
         if(newSettings instanceof Object){
-            return Object.assign({}, this.default, this.fixedDefault ,newSettings );
+            return Object.assign({}, this.default ,newSettings );
         }else{
             console.error('Valores padroes atribuido a variavel, pois parametro passado nao era do tipo Object')
             return this.default;
@@ -125,15 +174,13 @@ class Gn_modal{
         
         if(this.defaultSetting.animation.has === true){
             
-            this.modal.classList.add('fadeOut');
-            this.mainBox.classList.add('fadeOutUp')
-            
-            setTimeout(()=>{
-                
-                this.clearAll();
-                this.modal.hide(); 
-                
-            },450);
+            this.mainBox.removeClasses('swing')
+            this.modal.addClasses('fadeOut');
+            this.mainBox.addClasses('fadeOutUp').delay(450)
+                .then(()=>{
+                    this.clearAll();
+                    this.modal.hide(); 
+                });
             
         } else {
             this.clearAll();
@@ -147,8 +194,8 @@ class Gn_modal{
     clearAll(){
         
         this.removeAllChild(this.title,this.message,this.controller);
-        this.modal.classList.remove('fadeOut');
-        this.mainBox.classList.remove('fadeOutUp');
+        this.modal.removeClasses('fadeOut');
+        this.mainBox.removeClasses('fadeOutUp swing');
         
     }
     
@@ -166,11 +213,11 @@ class Gn_modal{
     }
     
     /**
-     * Funcao para iniciar o prototype
+     * Funcao para iniciar o prototypes
      */
     initPrototype(){
         
-
+        
         Element.prototype.show = function(){
             this.style.display = 'flex';
             return this;
@@ -180,6 +227,14 @@ class Gn_modal{
             let _class = classes.split(' ')
             for (let name in _class){
                 this.classList.add(_class[name]);
+            }
+            return this;
+        }
+        Element.prototype.removeClasses = function(classes){
+            
+            let _class = classes.split(' ')
+            for (let name in _class){
+                this.classList.remove(_class[name]);
             }
             return this;
         }
@@ -199,5 +254,17 @@ class Gn_modal{
             
         }
         
+        Element.prototype.delay = function(time){
+            return new Promise((resolve, reject)=>{
+                setTimeout(() => {
+                    resolve(true);
+                }, time);
+            });
+        }
+        
     }   
 }
+
+
+
+

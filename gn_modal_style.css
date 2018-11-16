@@ -67,12 +67,11 @@ table {
     max-width: 40%;
     z-index: 2;
     position: absolute;
-    transform: translate(0%, -50%);
     align-self: center;
-    top: 50%;
 }
 
 #gn_modal {
+    justify-content: center;
     flex-direction: column;
     display: none;
 }
@@ -95,6 +94,7 @@ table {
 }
 
 #title-box {
+    display: flex;
     border-radius: 3px 3px 0 0;
     padding: 15px;
     font-size: 1.4em;
@@ -105,6 +105,7 @@ table {
 }
 
 #title-box h3 {
+    flex: 1;
     color: var(--medium-modal-color);
 }
 
@@ -242,13 +243,14 @@ table {
 }
 .swing {
 
-    -webkit-animation: swing  .5s cubic-bezier(0.65, 0.05, 0.36, 1);
-    animation: swing  .5s cubic-bezier(0.65, 0.05, 0.36, 1);
+    -webkit-animation: swing  .3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    animation: swing  .3s cubic-bezier(0.65, 0.05, 0.36, 1);
+
+}
 
 
-
-
-
-
-
-
+#icon {
+    display: block;
+    width: 17px;
+    color: var(--medium-modal-color);
+}
