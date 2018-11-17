@@ -10,7 +10,7 @@ class Gn_modal{
         this.message    = document.getElementById('desc-box');
         this.controller = document.getElementById('box-controller');
         this.mainBox    = document.getElementById('main-box');
-        this.overlay    = document.getElementById('overlay-box');
+        this.overlay    = document.getElementById('overlay-box'); 
         
         
         /**
@@ -20,7 +20,7 @@ class Gn_modal{
             title      :'type atitle',
             message    :'type a description',
             type       :'info',
-            svg        : '<svg viewBox="0 0 256 512"><path fill="currentColor" d="M224 352.589V224c0-16.475-6.258-31.517-16.521-42.872C225.905 161.14 236 135.346 236 108 236 48.313 187.697 0 128 0 68.313 0 20 48.303 20 108c0 20.882 5.886 40.859 16.874 58.037C15.107 176.264 0 198.401 0 224v39.314c0 23.641 12.884 44.329 32 55.411v33.864C12.884 363.671 0 384.359 0 408v40c0 35.29 28.71 64 64 64h128c35.29 0 64-28.71 64-64v-40c0-23.641-12.884-44.329-32-55.411zM128 48c33.137 0 60 26.863 60 60s-26.863 60-60 60-60-26.863-60-60 26.863-60 60-60zm80 400c0 8.836-7.164 16-16 16H64c-8.836 0-16-7.164-16-16v-40c0-8.836 7.164-16 16-16h16V279.314H64c-8.836 0-16-7.164-16-16V224c0-8.836 7.164-16 16-16h96c8.836 0 16 7.164 16 16v168h16c8.836 0 16 7.164 16 16v40z" class=""></path></svg>',
+            svg        : '<svg aria-hidden="true" data-prefix="fas" data-icon="cloud-moon-rain" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-cloud-moon-rain fa-w-18 fa-9x"><path fill="currentColor" d="M350.5 225.5c-6.9-37.2-39.3-65.5-78.5-65.5-12.3 0-23.9 3-34.3 8-17.4-24.1-45.6-40-77.7-40-53 0-96 43-96 96 0 .5.2 1.1.2 1.6C27.6 232.9 0 265.2 0 304c0 44.2 35.8 80 80 80h256c44.2 0 80-35.8 80-80 0-39.2-28.2-71.7-65.5-78.5zm217.4-1.7c-70.4 13.3-135-40.3-135-110.8 0-40.6 21.9-78 57.5-98.1 5.5-3.1 4.1-11.4-2.1-12.5C479.6.8 470.7 0 461.8 0c-77.9 0-141.1 61.2-144.4 137.9 26.7 11.9 48.2 33.8 58.9 61.7 37.1 14.3 64 47.4 70.2 86.8 5.1.5 10 1.5 15.2 1.5 44.7 0 85.6-20.2 112.6-53.3 4.2-4.8-.2-12-6.4-10.8zM364.5 418.1c-7.6-4.3-17.4-1.8-21.8 6l-36.6 64c-4.4 7.7-1.7 17.4 6 21.8 2.5 1.4 5.2 2.1 7.9 2.1 5.5 0 10.9-2.9 13.9-8.1l36.6-64c4.3-7.7 1.7-17.4-6-21.8zm-96 0c-7.6-4.3-17.4-1.8-21.8 6l-36.6 64c-4.4 7.7-1.7 17.4 6 21.8 2.5 1.4 5.2 2.1 7.9 2.1 5.5 0 10.9-2.9 13.9-8.1l36.6-64c4.3-7.7 1.7-17.4-6-21.8zm-96 0c-7.6-4.3-17.4-1.8-21.8 6l-36.6 64c-4.4 7.7-1.7 17.4 6 21.8 2.5 1.4 5.2 2.1 7.9 2.1 5.5 0 10.9-2.9 13.9-8.1l36.6-64c4.3-7.7 1.7-17.4-6-21.8zm-96 0c-7.6-4.3-17.4-1.8-21.8 6l-36.6 64c-4.4 7.7-1.7 17.4 6 21.8 2.5 1.4 5.2 2.1 7.9 2.1 5.5 0 10.9-2.9 13.9-8.1l36.6-64c4.3-7.7 1.7-17.4-6-21.8z" class=""></path></svg>',
             buttons    :{
                 cancel  : ()=>{ this.dismiss();}
             },
@@ -50,35 +50,35 @@ class Gn_modal{
         
         
         // define as configuracoes padrao
-        this.defaultSetting =   this.setSettings(value);
+        this.userSetting =   this.setSettings(value);
         
         // adiciona a classe ao main-box
-        this.mainBox.addClasses(`${this.defaultSetting.type}`);
+        this.mainBox.addClasses(`${this.userSetting.type}`);
         
         // Checa se a propriedade addclass nao foi declarar
-        this.defaultSetting.addClass != ''?
-            this.modal.addClasses(`${this.defaultSetting.addClass}`) 
+        this.userSetting.addClass != ''?
+            this.modal.addClasses(`${this.userSetting.addClass}`) 
         :'' ;
         
         // aplica o estilo css no overlay
-        this.overlay.css(this.defaultSetting.overlay);
+        this.overlay.css(this.userSetting.overlay);
         
         // Criando titulo
-        this.title.append( this.createNewElement('h3',`${this.defaultSetting.title}`));  
+        this.title.append( this.createNewElement('h3',`${this.userSetting.title}`));  
         
         //Crinado o icone
         let icon = this.createNewElement('span');
         icon.id = 'icon';
-        icon.addClasses(this.defaultSetting.type);
-        icon.innerHTML = this.defaultSetting.svg;
+        icon.addClasses(this.userSetting.type);
+        icon.innerHTML = (this.userSetting.svg);
         this.title.append(icon);  
         
         // Crinado descricao
-        this.message.append(this.createNewElement('p',`${this.defaultSetting.message}`));
+        this.message.append(this.createNewElement('p',`${this.userSetting.message}`));
         
         //Criando os botoes
         let button = [];
-        for (button  in this.defaultSetting.buttons){
+        for (button  in this.userSetting.buttons){
             this.controller.append( this.createNewElement('button',`${button}`)) 
         }  
         
@@ -96,7 +96,7 @@ class Gn_modal{
     
     initKeybordEvents(){
         
-        if(this.modal.style.display == 'flex' && this.defaultSetting.pressEsc === true){
+        if(this.modal.style.display == 'flex' && this.userSetting.pressEsc === true){
             document.addEventListener('keyup',this.escKeyup.bind(this),{once:true})
         }
         
@@ -105,7 +105,6 @@ class Gn_modal{
     
     escKeyup(e){
         document.removeEventListener('keyup',this.escKeyup,{once:true})
-        
         if(e.keyCode === 27){
             this.escape();
         }
@@ -113,15 +112,14 @@ class Gn_modal{
     
     escape(){
         
-        if(this.defaultSetting.escape == true){
+        if(this.userSetting.escape == true){
             this.dismiss();
         }else{
             
             this.mainBox.removeClasses('swing').delay(100).then(()=>{
                 this.mainBox.addClasses('swing');
             });
-        }
-        
+        }        
     }
     
     
@@ -149,7 +147,7 @@ class Gn_modal{
      * @param {Element} button Elemento button html
      */
     addEventsButtons(button){  
-        button.addEventListener('click',this.defaultSetting.buttons[button.dataset.fn]);  
+        button.addEventListener('click',this.userSetting.buttons[button.dataset.fn]);  
     }
     /**
      * Funcao para atribuir valores entre as configuracoes padrao e as novas configuracoes
@@ -172,7 +170,7 @@ class Gn_modal{
      */
     dismiss(){
         
-        if(this.defaultSetting.animation.has === true){
+        if(this.userSetting.animation.has === true){
             
             this.mainBox.removeClasses('swing')
             this.modal.addClasses('fadeOut');
@@ -258,8 +256,10 @@ class Gn_modal{
             return new Promise((resolve, reject)=>{
                 setTimeout(() => {
                     resolve(true);
+                    return this;
                 }, time);
             });
+            
         }
         
     }   
