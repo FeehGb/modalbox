@@ -30,7 +30,7 @@ class Gn_modal{
             },
             escape: false,
             animation : { has:true},
-            pressEsc  : true,
+            pressEsc  : false,
             
         };
         
@@ -46,7 +46,7 @@ class Gn_modal{
     create(value){
         
         // limpa tudo antes de receber os novos valores
-        this.removeAllChild(this.title,this.message,this.controller);
+        //this.removeAllChild(this.title,this.message,this.controller);
         
         
         // define as configuracoes padrao
@@ -99,7 +99,7 @@ class Gn_modal{
         if(this.modal.style.display == 'flex' && this.userSetting.pressEsc === true){
             document.addEventListener('keyup',this.escKeyup.bind(this),{once:true})
         }
-        
+
     }
     
     
@@ -160,7 +160,7 @@ class Gn_modal{
         if(newSettings instanceof Object){
             return Object.assign({}, this.default ,newSettings );
         }else{
-            console.error('Valores padroes atribuido a variavel, pois parametro passado nao era do tipo Object')
+            console.log('Valores padroes atribuido a variavel, pois parametro passado nao era do tipo Object')
             return this.default;
         }
     }
