@@ -33,6 +33,37 @@
         
     <script src="gn_modal.js" ></script>
     <script>
+        
+        let items = [
+            {title: 'one and qualquer coisa'},
+            {title: 'two e blalba'},
+            {title: 'three quero papa'},
+            {title: 'four cagada'},
+            {title: 'five coco'},
+            {title: 'six xana'}
+        ]
+        let searchTerms =  'three quero papa xana qualquer'.split(' ');
+        let array =  []
+        let final = items.filter((item) => {
+
+            for(let searchTerm of searchTerms){
+                
+                if(item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1){
+                    return array.push(item);
+                }
+            }    
+        }); 
+        
+        console.log(final) 
+        
+        
+        
+        
+        
+        
+        
+        
+        
         modal = new Gn_modal;
         
         document.getElementById('show-box').addEventListener('click',()=>{
