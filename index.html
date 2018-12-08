@@ -30,39 +30,139 @@
             </div>
         </div>
     </div>
+    
+    
+    <div>
+        
+        <select name="cars" class="feedback">
+            <option value="Pe">Pessimo</option>
+            <option value="Ru">Ruim</option>
+            <option value="Re">Regular</option>
+            <option value="Bo">Bom</option>
+            <option value="Ot">Otimo</option>
+        </select>
+        <select name="cars" class="feedback">
+            <option value="Pe">Pessimo</option>
+            <option value="Ru">Ruim</option>
+            <option value="Re">Regular</option>
+            <option value="Bo">Bom</option>
+            <option value="Ot">Otimo</option>
+        </select>
+        
+    </div>
         
     <script src="gn_modal.js" ></script>
+    <style>
+    
+        ul.stars{
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        li.star{
+            text-indent:-999em;
+            width:15px;
+            height:15px;
+            position: relative;
+            font-size: 22px;
+            padding: 3px;
+            cursor: pointer;
+            mask: no-repeat 50% 50% url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"/></svg>');
+            -webkit-mask: no-repeat 50% 50% url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"/></svg>');
+            
+        }
+        li.star::after{
+            content: '\002B50'; 
+            filter: contrast(200%) saturate(1);
+            opacity: 0;
+            background-color:#FF9800; 
+        }
+        li.star::before{
+            
+            content: '\002B50'; 
+            filter: contrast(200%) saturate(0); 
+            opacity: 1;
+            background-color:#a0a0a0; 
+        }
+        li.star::after,
+        li.star::before{
+            width:15px;
+            height:15px;
+            padding: 3;
+            top: 0;
+            left: 0;
+            position: absolute;
+            transition: .5s;
+        }
+        
+        li.star.selected::after,
+        li.star:hover::after,
+        li.star.selected ~ li.star::after
+        {
+            opacity: 1;
+        }
+        li.star:hover ~ li.star::after,
+        li.star:hover ~ li.star::before{
+            opacity: .5;
+        }
+        
+        
+        
+    </style>
     <script>
         
-        let items = [
-            {title: 'one and qualquer coisa'},
-            {title: 'two e blalba'},
-            {title: 'three quero papa'},
-            {title: 'four cagada'},
-            {title: 'five coco'},
-            {title: 'six xana'}
-        ]
-        let searchTerms =  'three quero papa xana qualquer'.split(' ');
-        let array =  []
-        let final = items.filter((item) => {
-
-            for(let searchTerm of searchTerms){
+        
+        Element.prototype.feedback = function(getFeed = ''){
+            
+            let _this = this;
+            let options = _this.options;
+            let ul = document.createElement('ul');
+                ul.classList.add('stars');
+            
+            
+            options = Object.assign([], options).reverse();
+            [...options].forEach(option => {
+                li = document.createElement('li');
                 
-                if(item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1){
-                    return array.push(item);
-                }
-            }    
-        }); 
+                li.classList.add('star');
+                //li.innerHTML = '&#x2B50';
+                li.dataset.value = option.value;
+                
+                li.addEventListener('click',function(){
+                    
+                    if(!this.classList.contains('selected')){
+                        ul.querySelectorAll('li.selected').forEach((e)=>{
+                            e.classList.remove('selected');
+                        });
+                    }
+                    
+                    this.classList.toggle('selected');
+                    
+                    
+                    _this.value = this.dataset.value;
+                    
+                });
+                
+                ul.append(li);
+
+            });
+            _this.insertAdjacentElement('afterend',ul);
+            _this.style.display = 'none'
+            
+            if(getFeed != ''){
+                _this.value = getFeed;
+                ul.querySelector(`[data-value="${getFeed}"]`).click();
+            }
+            return this;
+        }
         
-        console.log(final) 
+        document.querySelectorAll('.feedback').forEach((e)=>{
+           e.feedback('Ru');
+        })
         
+
         
-        
-        
-        
-        
-        
-        
+    
         
         modal = new Gn_modal;
         

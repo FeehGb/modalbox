@@ -269,8 +269,8 @@ class Gn_modal {
                     return this;
                 }, time);
             });
-            
         }
+        
         
     }
 }
