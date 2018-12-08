@@ -48,6 +48,27 @@
             <option value="Bo">Bom</option>
             <option value="Ot">Otimo</option>
         </select>
+        <select name="cars" class="feedback">
+            <option value="Pe">Pessimo</option>
+            <option value="Ru">Ruim</option>
+            <option value="Re">Regular</option>
+            <option value="Bo">Bom</option>
+            <option value="Ot">Otimo</option>
+        </select>
+        <select name="cars" class="feedback">
+            <option value="Pe">Pessimo</option>
+            <option value="Ru">Ruim</option>
+            <option value="Re">Regular</option>
+            <option value="Bo">Bom</option>
+            <option value="Ot">Otimo</option>
+        </select>
+        <select name="cars" class="feedback">
+            <option value="Pe">Pessimo</option>
+            <option value="Ru">Ruim</option>
+            <option value="Re">Regular</option>
+            <option value="Bo">Bom</option>
+            <option value="Ot">Otimo</option>
+        </select>
         
     </div>
         
@@ -111,10 +132,15 @@
     </style>
     <script>
         
-        
-        Element.prototype.feedback = function(getFeed = ''){
+        /**
+         * Funcao para criar um feedback com base no Select
+         * @param {Boolean} hasFeed Caso exista ja um feedback
+         * 
+         */
+        Element.prototype.feedback = function(hasFeed = true){
             
             let _this = this;
+            let _default = _this.value;
             let options = _this.options;
             let ul = document.createElement('ul');
                 ul.classList.add('stars');
@@ -122,42 +148,46 @@
             
             options = Object.assign([], options).reverse();
             [...options].forEach(option => {
-                li = document.createElement('li');
                 
+                li = document.createElement('li');
                 li.classList.add('star');
                 //li.innerHTML = '&#x2B50';
                 li.dataset.value = option.value;
-                
+                li.title = option.innerText;
                 li.addEventListener('click',function(){
+                    selected = ul.querySelectorAll('li.selected');
                     
                     if(!this.classList.contains('selected')){
-                        ul.querySelectorAll('li.selected').forEach((e)=>{
+                        
+                        selected.forEach((e)=>{
                             e.classList.remove('selected');
                         });
+                        _this.value = this.dataset.value;
+                    }else{
+                        _this.value = null;
                     }
                     
-                    this.classList.toggle('selected');
-                    
-                    
-                    _this.value = this.dataset.value;
-                    
+                    this.classList.toggle('selected');                    
                 });
                 
                 ul.append(li);
 
             });
             _this.insertAdjacentElement('afterend',ul);
-            _this.style.display = 'none'
+            //_this.style.display = 'none'
             
-            if(getFeed != ''){
-                _this.value = getFeed;
-                ul.querySelector(`[data-value="${getFeed}"]`).click();
+            if(hasFeed){
+                _this.value = _default;
+                ul.querySelector(`[data-value="${_default}"]`).classList.toggle('selected');
+            }else{
+                _this.value = null;
             }
+            
             return this;
         }
         
         document.querySelectorAll('.feedback').forEach((e)=>{
-           e.feedback('Ru');
+            e.feedback(false);
         })
         
 
