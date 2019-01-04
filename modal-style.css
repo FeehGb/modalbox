@@ -79,6 +79,7 @@ table {
 
 #_modal *{
     font-family: system;
+    font-weight: 300;
 }
 #_modal {
     justify-content: center;
