@@ -2,19 +2,25 @@
     
     <head>
         <title></title>
-        <link type="text/css" href="gn_modal_style.css"  rel="stylesheet" />
+        <link type="text/css" href="modal-style.css"  rel="stylesheet" />
     </head>
     <body>
         
-        <a id="show-box">
-            Click me to show
-        </a>
+        <div>
+            <a id="show-box">Show Default </a>
+        </div>
+        <div>
+            <a id="show-box2">Show Alert</a>
+        </div>
+        <div>
+            <a id="show-box3">Show info</a>
+        </div>
+        <div>
+            <a id="show-box4">Show Danger with details </a>
+        </div>
         
-        <a id="show-box2">
-            Click me to show
-        </a>
-        
-    <div id="gn_modal">
+
+    <div id="_modal">
         <div id="overlay-box"></div>
         <div id="main-box">
             <div id="content-box">
@@ -41,76 +47,11 @@
             <option value="asdfsd">asdfsdf</option>
             <option value="asdfsdf">asdfasdf</option>
         </select>
-        <select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select>
-        <select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select>
-        <select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option><option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select><select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select><select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select><select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select>
-        <select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select><select name="cars" class="feedback">
-            <option value="Pe">Pessimo</option>
-            <option value="Ru">Ruim</option>
-            <option value="Re">Regular</option>
-            <option value="Bo">Bom</option>
-            <option value="Ot">Otimo</option>
-        </select>
+        
         
     </div>
         
-    <script src="gn_modal.js" ></script>
+    <script src="Modal.js" ></script>
     <style>
     
         ul.stars{
@@ -215,6 +156,7 @@
                 
         
     </style>
+    
     <script>
         
         /**
@@ -275,28 +217,32 @@
             e.feedback(false);
         })
         
-
         
-    
-        
-        modal = new Gn_modal;
+        let modal = new Modal;
         
         document.getElementById('show-box').addEventListener('click',()=>{
             modal.create();
-            
-        })
-        
-        
+        });
         document.getElementById('show-box2').addEventListener('click',()=>{
             modal.create({
-                svg :'',
+                type:'alert'
+            });
+        });
+        document.getElementById('show-box3').addEventListener('click',()=>{
+            modal.create({
+                type:'info'
+            });
+        });
+        
+        document.getElementById('show-box4').addEventListener('click',()=>{
+            modal.create({
                 title      :'Aqui jas um novo carinha',
                 message    :'Algo diferente para o teste',
-                type       :'alert',
+                type       :'danger',
                 buttons    :{
-                    cancel      : ()=>{ modal.dismiss();},
-                    atualizar   : ()=>{ alert('atualizado com sucesso'),modal.dismiss();},
-                    modificar   : ()=>{ alert('modificar')},
+                    Cancel     : ()=>{ modal.dismiss();},
+                    Atualizar  : ()=>{ alert('atualizado com sucesso'),modal.dismiss();},
+                    Modificar  : ()=>{ alert('modificar')},
                 },
                 addClass    : 'classe',
                 overlay     :  {

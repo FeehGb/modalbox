@@ -1,11 +1,11 @@
-class Gn_modal {
+class Modal {
     
     constructor() {
         
         /**
-         * atributos para manipulacao do modal
+         * atributos para manipulacao do Dialog
          */
-        this.modal      = document.getElementById('gn_modal'      );
+        this.modal      = document.getElementById('_modal'      );
         this.title      = document.getElementById('title-box'     );
         this.message    = document.getElementById('desc-box'      );
         this.controller = document.getElementById('box-controller');
@@ -19,7 +19,7 @@ class Gn_modal {
         this.default = {
             title     : 'type atitle'        ,
             message   : 'type a description' ,
-            type      : 'info'               ,
+            type      : 'default'               ,
             svg       : ''                   ,
             buttons   : {
                 cancel  : () => {
@@ -202,7 +202,7 @@ class Gn_modal {
         
         this.removeAllChild(this.title, this.message, this.controller);
         this.modal.removeClasses('fadeOut');
-        this.mainBox.removeClasses('fadeOutUp swing');
+        this.mainBox.removeClasses(`fadeOutUp swing ${this.userSetting.type}`);
         
     }
     
