@@ -18,6 +18,9 @@
         <div>
             <a id="show-box4">Show Danger with details </a>
         </div>
+        <div>
+            <a id="show-box5">Show success with details </a>
+        </div>
         
 
     <div id="_modal">
@@ -231,6 +234,16 @@
         document.getElementById('show-box3').addEventListener('click',()=>{
             modal.create({
                 type:'info'
+            });
+        });
+        document.getElementById('show-box5').addEventListener('click',()=>{
+            modal.create({
+                title      :'Dados Atualizados!',
+                message    :'Seus dados Foram atualizados com sucesso!',
+                buttons    :{
+                    Sair     : ()=>{ modal.dismiss();},
+                },
+                type:'success'
             });
         });
         

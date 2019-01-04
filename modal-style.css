@@ -7,6 +7,7 @@
     --alert-modal-color         :rgb(255, 202, 13);
     --danger-modal-color        :rgb(242, 95, 92);
     --info-modal-color          :rgb(65, 158, 234);
+    --success-modal-color       :rgb(49, 211, 116);
 }
 
 @font-face {
@@ -79,7 +80,7 @@ table {
 
 #_modal *{
     font-family: system;
-    font-weight: 300;
+    /* font-weight: 300; */
 }
 #_modal {
     justify-content: center;
@@ -266,10 +267,12 @@ table {
 }
 
 /* Preset default box */
-.danger *   ,
-.info   *   ,
-.alert  *{ 
-    color: #fff!important
+.danger  #desc-box p   ,
+.success #desc-box p   ,
+.info    #desc-box p   ,
+.alert   #desc-box p 
+{ 
+    color: rgba(255,255,255,1)
 }
 .danger #content-box{
     background-color: var(--danger-modal-color); 
@@ -279,6 +282,9 @@ table {
 }
 .alert #content-box{
     background-color: var(--alert-modal-color); 
+}
+.success #content-box{
+    background-color: var(--success-modal-color); 
 }
 
 
