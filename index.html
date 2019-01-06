@@ -2,6 +2,7 @@
     
     <head>
         <title></title>
+        <link type="text/css" href="animated.css"  rel="stylesheet" />
         <link type="text/css" href="modal-style.css"  rel="stylesheet" />
     </head>
     <body>
@@ -221,28 +222,46 @@
         })
         
         
-        let modal = new Modal;
+        const modal = new Modal;
         
         document.getElementById('show-box').addEventListener('click',()=>{
             modal.create();
         });
         document.getElementById('show-box2').addEventListener('click',()=>{
             modal.create({
-                type:'alert'
+                type:'alert',
+                animation:{
+                    escape:'bounceOutUp',
+                },
+                escape:true,
             });
         });
         document.getElementById('show-box3').addEventListener('click',()=>{
             modal.create({
-                type:'info'
+                pressEsc:true,
+                type:'info',
+                animation:{
+                    escape:'heartBeat',
+                },
             });
         });
         document.getElementById('show-box5').addEventListener('click',()=>{
             modal.create({
+                pressEsc:true,
+                animation:{
+                    escape:'jello',
+                },
                 title      :'Dados Atualizados!',
                 message    :'Seus dados Foram atualizados com sucesso!',
-                buttons    :{
-                    Sair     : ()=>{ modal.dismiss();},
-                },
+                buttons    :[
+                {
+                    text: 'Test',
+                    role: 'test',
+                    handler: () => {
+                            modal.dismiss();
+                    }
+                }
+            ],
                 type:'success'
             });
         });
@@ -252,17 +271,46 @@
                 title      :'Aqui jas um novo carinha',
                 message    :'Algo diferente para o teste',
                 type       :'danger',
-                buttons    :{
-                    Cancel     : ()=>{ modal.dismiss();},
-                    Atualizar  : ()=>{ alert('atualizado com sucesso'),modal.dismiss();},
-                    Modificar  : ()=>{ alert('modificar')},
+                buttons    :[
+                {
+                    role: 'test',
+                    handler: () => {
+                            modal.dismiss();
+                    }
                 },
+                
+                {
+                    text: 'buttao',
+                    
+                    handler: () => {
+                        
+                        modal.destroy();
+                        modal.create({
+                            title      :'Dados Atualizados!',
+                            message    :'Seus dados Foram atualizados com sucesso!',
+                            buttons    :[
+                            {
+                                text: 'okay',
+                                role: 'Entendi tudo!',
+                                handler: () => {
+                                    modal.dismiss();
+                                }
+                            }
+                        ],
+                            type:'success'
+                        });
+                    }
+                }
+            
+            ],
                 addClass    : 'classe',
                 overlay     :  {
                     opacity:'0',
                 },
-                escape: true,
-                pressEsc:true
+                pressEsc:true,
+                animation:{
+                    escape:'bounce',
+                }
         
             });
         });

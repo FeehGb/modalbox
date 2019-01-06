@@ -107,9 +107,10 @@ table {
 }
 
 #title-box {
+    position: relative;
     display: flex;
     border-radius: 3px 3px 0 0;
-    padding: 15px;
+    padding: 15px 40px 15px 15px;
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: 5px;
@@ -139,18 +140,27 @@ table {
     flex-direction: row;
 }
 
+#box-controller button:hover,
+#box-controller button:focus{
+    border: solid 1px rgba(0,0,0,.1);;
+    background-color: rgba(0,0,0,.1);
+}
 #box-controller button {
     border-radius: 5px;
     cursor: pointer;
-    
+    font-weight: 400;
     color: var(--light-modal-color);
-    background-color: var(--medium-dark-modal-color);
-    border: none;
+    background-color: rgba(255,255,255,.1);
+    border: solid 1px rgba(255,255,255,.3);
     padding: 12px 30px;
     margin: 2px 6px;
+    transition: all .5s cubic-bezier(0.215, 0.610, 0.355, 1);
 }
-
-.fadeOut{
+.default #box-controller button {
+    color: rgba(0, 0, 0, 0.5);
+    border: solid 1px rgba(0, 0, 0, 0.2);
+}
+/* .fadeOut{
     animation: fadeOut .5s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
@@ -259,13 +269,32 @@ table {
     -webkit-animation: swing  .3s cubic-bezier(0.65, 0.05, 0.36, 1);
     animation: swing  .3s cubic-bezier(0.65, 0.05, 0.36, 1);
 
-}
+} */
 #icon {
     display: block;
     width: 17px;
     color: var(--medium-dark-modal-color);
 }
 
+.close {
+    border-radius: 4px;
+    padding: 9px;
+    top: 0;
+    right: 0;
+    position: absolute;
+    color: rgba(255, 255, 255, 0.91);
+    display: block;
+    background-color: rgba(0, 0, 0, 0.15);
+    width: 34px;
+    border: solid 1px rgba(0,0,0,0);
+    cursor: pointer;
+}
+.close:hover,
+.close:focus{
+    
+    background-color: var(--danger-modal-color);
+    color: rgba(255, 255, 255, 1);
+}
 /* Preset default box */
 .danger  #desc-box p   ,
 .success #desc-box p   ,

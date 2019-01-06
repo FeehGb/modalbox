@@ -5,38 +5,46 @@ class Modal {
         /**
          * atributos para manipulacao do Dialog
          */
-        this.modal      = document.getElementById('_modal'      );
-        this.title      = document.getElementById('title-box'     );
-        this.message    = document.getElementById('desc-box'      );
-        this.controller = document.getElementById('box-controller');
-        this.mainBox    = document.getElementById('main-box'      );
-        this.overlay    = document.getElementById('overlay-box'   );
-        
+        this.modal          = document.getElementById('_modal'        );
+        this.title          = document.getElementById('title-box'     );
+        this.message        = document.getElementById('desc-box'      );
+        this.controller     = document.getElementById('box-controller');
+        this.mainBox        = document.getElementById('main-box'      );
+        this.overlay        = document.getElementById('overlay-box'   );
         
         /**
          * Set defaults values to de modal box
          */
+        
         this.default = {
-            title     : 'type atitle'        ,
-            message   : 'type a description' ,
-            type      : 'default'               ,
-            svg       : ''                   ,
-            buttons   : {
-                cancel  : () => {
-                    this.dismiss();
+            title: 'type atitle',
+            message: 'type a description',
+            type: 'default',
+            svg: '',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    handler: () => {
+                        this.dismiss();
+                        console.log('Cancel clicked');
+                    }
                 }
+            ],
+            addClass: '',
+            overlay: {
+                opacity: '0.5',
             },
-            addClass  : ''                   ,
-            overlay   : {
-                opacity : '0.5',
+            escape: false,
+            animation: {
+                escape: 'swing',
+                dismiss: 'fadeOutUp'
+        
             },
-            escape    : false                ,
-            animation : {
-                has     : true
-            },
-            pressEsc  : false                ,
-            
+            pressEsc: false,
         };
+        
+        
         
         this.initPrototype();
         
@@ -47,13 +55,17 @@ class Modal {
      * 
      * @param {object} value objeto com novos valores a serem definidos no modal
      */
-    create(value) {
+    create(setting) {
         
         // limpa tudo antes de receber os novos valores
         //this.removeAllChild(this.title,this.message,this.controller);
         
         // define as configuracoes padrao
-        this.userSetting = this.setSettings(value);
+        this.userSetting = this.extend(this.default,setting);
+        
+        console.log(this.userSetting);
+        console.log(this.default);
+        
         
         // adiciona a classe ao main-box
         this.mainBox.addClasses(`${this.userSetting.type}`);
@@ -75,21 +87,33 @@ class Modal {
         icon.innerHTML = (this.userSetting.svg.replace(/(<svg\s)[^]*(viewBox="[\s\d]*")[^>]*(.*)/g,'$1$2$3'));
         this.title.append(icon);
         
+        
+        //criando close button top left
+        let btnData = [{
+            text:' ',
+            handler: () => {
+                this.dismiss();
+                console.log('Cancel clicked');
+            },
+            class:'close',
+            svg:'<svg aria-hidden="true" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="svg-inline--fa fa-times fa-w-11 fa-3x"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>'
+        }]
+        this.createButtons(btnData,this.title);
+        
+        
+        
+        
         // Crinado descricao
         this.message.append(this.createNewElement('p', `${this.userSetting.message}`));
         
-        //Criando os botoes
-        let button = [];
-        for (button in this.userSetting.buttons) {
-            this.controller.append(this.createNewElement('button', `${button}`))
-        }
+        //Criando os botoes footer
         
+        this.createButtons(this.userSetting.buttons,this.controller);
         
         // Adciona o evento click no overlay
         this.overlay.addEventListener('click', (e) => {
             this.escape();
         });
-        
         
         // Por fim mostra o modal gerado
         this.modal.show();
@@ -99,35 +123,33 @@ class Modal {
     initKeybordEvents() {
         
         if (this.modal.style.display == 'flex' && this.userSetting.pressEsc === true) {
-            document.addEventListener('keyup', this.escKeyup.bind(this), {
-                once: true
-            })
+            document.addEventListener('keyup', this.escKeyup.bind(this))
         }
         
     }
     
-    
     escKeyup(e) {
-        document.removeEventListener('keyup', this.escKeyup, {
-            once: true
-        })
+        
+        document.removeEventListener('keyup', this.escKeyup.bind(this));
         if (e.keyCode === 27) {
+            console.log(e)
             this.escape();
         }
     }
     
     escape() {
-        
         if (this.userSetting.escape == true) {
             this.dismiss();
         } else {
             
-            this.mainBox.removeClasses('swing')
-                .delay(100)
-                .then(() => {
-                    this.mainBox.addClasses('swing');
-                });
+            this.mainBox.removeClasses(this.userSetting.animation.escape)
+            .delay(100)
+            .then(() => {
+                this.mainBox.addClasses(this.userSetting.animation.escape);
+            });
         }
+        
+        
     }
     
     
@@ -138,25 +160,87 @@ class Modal {
      * @param {String} innerText     texto que ira dentro da nova tag
      * @returns {newElement}         Novo elemento criado
      */
-    createNewElement(elm, innerText = '') {
+    createNewElement(elm, data = '') {
         let newElement = document.createElement(`${elm}`);
-        newElement.innerHTML = `${innerText}`;
         
-        if (elm === 'button') {
-            newElement.dataset.fn = `${innerText}`;
-            this.addEventsButtons(newElement);
+
+        switch(elm){
+            case 'button':
+                newElement.innerHTML = `${data.text || 'Click-me'}`;
+                if(data.svg){
+                    newElement.innerHTML += `${data.svg.replace(/(<svg\s)[^]*(viewBox="[\s\d]*")[^>]*(.*)/g,'$1$2$3')}`;
+                }
+                newElement.title = `${data.role ||''}`;
+                newElement.type = `button`;
+                newElement.classList.add(`${data.class ||'button'}`);
+                this.addEventsButtons(newElement,data.handler);
+            break
+            default:
+                newElement.innerHTML = `${data}`;
+            break
         }
+        
+        
+        
+        
         return newElement;
     }
+    
+    createButtons(data, target){
+        
+        let buttons = [];
+        data.forEach((info) => {
+            buttons.push(this.createNewElement('button', info));
+        })
+        
+        buttons.forEach((button) =>{
+            target.append(button);
+        })
+    }
+    
+    
     
     /**
      *  Funcao para adicionar eventos de click nos botoes
      * 
      * @param {Element} button Elemento button html
      */
-    addEventsButtons(button) {
-        button.addEventListener('click', this.userSetting.buttons[button.dataset.fn]);
+    addEventsButtons(button,handler) {
+        //debugger;
+        button.addEventListener('click', handler);
     }
+    
+    /**
+     * Funcao para atribuir valores entre as configuracoes padrao e as novas configuracoes
+     * @returns {extended} Objeto com as configuraçoes unidas
+     * 
+     */
+    extend(){
+        
+        let i = 0;
+        let length = arguments.length;
+        
+
+        let extended = {};
+        // Loop through each object and conduct a merge
+        for ( ; i < length; i++ ) {
+            let  obj = arguments[i];
+            for ( let prop in obj ) {
+                if ( ({}).hasOwnProperty.call( obj, prop ) ) {
+                    // If deep merge and property is an object, merge properties
+                    if ( Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                        extended[prop] = this.extend( extended[prop], obj[prop] );
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        }
+        
+        return extended;
+        
+    }
+    
     /**
      * Funcao para atribuir valores entre as configuracoes padrao e as novas configuracoes
      * @param {object} newSettings  Objeto com as novas configuracoes
@@ -165,12 +249,31 @@ class Modal {
      */
     setSettings(newSettings) {
         
+        
+        //return this.extend(this.default,newSettings);
+        
+       /*  let  extended = {};
+        var prop;
+        for (prop in this.default) {
+            if (Object.prototype.hasOwnProperty.call(this.default, prop)) {
+                extended[prop] = this.default[prop];
+            }
+        }
+        for (prop in newSettings) {
+            if (Object.prototype.hasOwnProperty.call(newSettings, prop)) {
+                extended[prop] = newSettings[prop];
+            }
+        }
+        return extended; */
+        
+       /*  debugger;
         if (newSettings instanceof Object) {
+            
             return Object.assign({}, this.default, newSettings);
         } else {
-            console.log('Valores padroes atribuido a variavel, pois parametro passado nao era do tipo Object')
+            //console.log('Valores padroes atribuido a variavel, pois parametro passado nao era do tipo Object')
             return this.default;
-        }
+        } */
     }
     
     /**
@@ -178,31 +281,27 @@ class Modal {
      */
     dismiss() {
         
-        if (this.userSetting.animation.has === true) {
-            
-            this.mainBox.removeClasses('swing')
-            this.modal.addClasses('fadeOut');
-            this.mainBox.addClasses('fadeOutUp')
-                .delay(450)
+        this.mainBox.removeClasses(this.userSetting.animation.escape);
+        this.modal.addClasses('fadeOut');
+        this.mainBox.addClasses(this.userSetting.animation.dismiss)
+            .delay(450)
                 .then(() => {
-                    this.clearAll();
+                    this.destroy();
                     this.modal.hide();
-                });
-                
-        } else {
-            this.clearAll();
-            this.modal.hide();
-        }
+                })
+            ;
+            
+        
     }
     
     /**
      * Funcao para limpar e zerar os dados do modal
      */
-    clearAll() {
+    destroy() {
         
         this.removeAllChild(this.title, this.message, this.controller);
         this.modal.removeClasses('fadeOut');
-        this.mainBox.removeClasses(`fadeOutUp swing ${this.userSetting.type}`);
+        this.mainBox.removeClasses(`${this.userSetting.animation.dismiss} ${this.userSetting.animation.escape} ${this.userSetting.type}`);
         
     }
     
