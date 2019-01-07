@@ -24,7 +24,7 @@ class Modal {
             buttons: [
                 {
                     text: 'Cancelar',
-                    role: 'cancel',
+                    over: 'cancel',
                     handler: () => {
                         this.dismiss();
                         console.log('Cancel clicked');
@@ -131,7 +131,8 @@ class Modal {
     escKeyup(e) {
         
         document.removeEventListener('keyup', this.escKeyup.bind(this));
-        if (e.keyCode === 27) {
+        
+        if (e.keyCode === 27 && this.userSetting.pressEsc === true) {
             console.log(e)
             this.escape();
         }
@@ -170,7 +171,7 @@ class Modal {
                 if(data.svg){
                     newElement.innerHTML += `${data.svg.replace(/(<svg\s)[^]*(viewBox="[\s\d]*")[^>]*(.*)/g,'$1$2$3')}`;
                 }
-                newElement.title = `${data.role ||''}`;
+                newElement.title = `${data.over ||''}`;
                 newElement.type = `button`;
                 newElement.classList.add(`${data.class ||'button'}`);
                 this.addEventsButtons(newElement,data.handler);

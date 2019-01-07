@@ -225,7 +225,11 @@
         const modal = new Modal;
         
         document.getElementById('show-box').addEventListener('click',()=>{
-            modal.create();
+            modal.create({
+                title: 'Gustavo legalzao!',
+                message: 'Nova mensagem'
+                
+            });
         });
         document.getElementById('show-box2').addEventListener('click',()=>{
             modal.create({
@@ -234,6 +238,7 @@
                     escape:'bounceOutUp',
                 },
                 escape:true,
+                pressEsc:true,
             });
         });
         document.getElementById('show-box3').addEventListener('click',()=>{
@@ -256,7 +261,7 @@
                 buttons    :[
                 {
                     text: 'Test',
-                    role: 'test',
+                    over: 'test',
                     handler: () => {
                             modal.dismiss();
                     }
@@ -273,7 +278,7 @@
                 type       :'danger',
                 buttons    :[
                 {
-                    role: 'test',
+                    over: 'test',
                     handler: () => {
                             modal.dismiss();
                     }
@@ -291,7 +296,7 @@
                             buttons    :[
                             {
                                 text: 'okay',
-                                role: 'Entendi tudo!',
+                                over: 'Entendi tudo!',
                                 handler: () => {
                                     modal.dismiss();
                                 }
