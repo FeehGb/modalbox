@@ -6,7 +6,7 @@ class Modal {
          * atributos para manipulacao do Dialog
          */
         this.modal          = document.getElementById('_modal'        );
-        this.title          = document.getElementById('title-box'     );
+        this._title          = document.getElementById('title-box'     );
         this.message        = document.getElementById('desc-box'      );
         this.controller     = document.getElementById('box-controller');
         this.mainBox        = document.getElementById('main-box'      );
@@ -58,7 +58,7 @@ class Modal {
     create(setting) {
         
         // limpa tudo antes de receber os novos valores
-        //this.removeAllChild(this.title,this.message,this.controller);
+        //this.removeAllChild(this._title,this.message,this.controller);
         
         // define as configuracoes padrao
         this.userSetting = this.extend(this.default,setting);
@@ -78,14 +78,14 @@ class Modal {
         this.overlay.css(this.userSetting.overlay);
         
         // Criando titulo
-        this.title.append(this.createNewElement('h3', `${this.userSetting.title}`));
+        this._title.append(this.createNewElement('h3', `${this.userSetting.title}`));
         
         //Crinado o icone
         let icon = this.createNewElement('span');
         icon.id = 'icon';
         icon.addClasses(this.userSetting.type);
         icon.innerHTML = (this.userSetting.svg.replace(/(<svg\s)[^]*(viewBox="[\s\d]*")[^>]*(.*)/g,'$1$2$3'));
-        this.title.append(icon);
+        this._title.append(icon);
         
         
         //criando close button top left
@@ -98,7 +98,7 @@ class Modal {
             class:'close',
             svg:'<svg aria-hidden="true" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="svg-inline--fa fa-times fa-w-11 fa-3x"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>'
         }]
-        this.createButtons(btnData,this.title);
+        this.createButtons(btnData,this._title);
         
         
         
@@ -300,7 +300,7 @@ class Modal {
      */
     destroy() {
         
-        this.removeAllChild(this.title, this.message, this.controller);
+        this.removeAllChild(this._title, this.message, this.controller);
         this.modal.removeClasses('fadeOut');
         this.mainBox.removeClasses(`${this.userSetting.animation.dismiss} ${this.userSetting.animation.escape} ${this.userSetting.type}`);
         
